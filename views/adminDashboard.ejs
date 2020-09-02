@@ -1,0 +1,92 @@
+<html>
+    <header>
+        <title>Admin Dashboard</title>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </header>
+    <body>
+        <div id="login">
+            <h3 class="text-center col-12 text-white pt-5">Login form</h3>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <h1 class="text-center mt-3">Welcome Admin</h1>
+                            <h2 class=" mt-5">Manage users</h2>
+                            <form>
+                                <div class="input-group mb-2">
+                                    <input type="text" id="myInput" name="username" onkeyup="mysearch()" class="form-control"
+                                        placeholder="Search for username">
+                                </div>
+                            </form>
+                            <table class="table" id="myTable">
+                                <thead class="thead-dark">
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">User id</th>
+                                    <th scope="col">User Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% for (var i = 0; i < user.length; i++){ %>  
+                                  <tr>
+                                    <th scope="row"><%= [i+1] %></th>
+                                    <td><%= user[i].id %></td>
+                                    <td><%= user[i].username %></td>
+                                    <td><%= user[i].email %></td>
+                                    <td>
+                                        <form method="POST" action="/admin/useredit" style="display: inline;">
+                                            <input type="hidden" name="id" value="<%= user[i].id %>">
+                                            <button type="submit" class="btn btn-info">Edit</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="/admin/deleteuser">
+                                            <input type="hidden" name="email" value="<%= user[i].email %>">
+                                            <button type="submit" class="btn btn-dark">Delete</button>
+                                        </form>
+                                    </td>
+                                  </tr>
+                                  
+                                  <% } %>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+                <form method="POST" action="/admin/adminlogout" style="display: inline;">
+                    <button type="submit" class="btn btn-info float-left mt-5 m-5">Log out</button>
+                </form>
+            </div>
+          </div>
+          <script>
+            function mysearch() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        </script>
+
+    </body>
+</html>        
+
+
+  
+  
